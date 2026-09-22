@@ -3,7 +3,7 @@ import SwiftUI
 
 @main
 struct VitalSyncApp: App {
-    @State private var model = AppModel()
+    @State private var model = AppModel.live()
 
     var body: some Scene {
         WindowGroup {

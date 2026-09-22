@@ -21,11 +21,38 @@ struct SyncDashboardView: View {
             }
 
             Section("Status") {
-                LabeledContent("Oura", value: model.connectionState == .connected ? "Connected" : "Not connected")
+                LabeledContent("Oura", value: model.connectionState.label)
                 LabeledContent("Last sync", value: model.lastSyncDate?.formatted(date: .abbreviated, time: .shortened) ?? "Never")
                 Text(model.lastSyncSummary)
                     .font(.footnote)
                     .foregroundStyle(.secondary)
+            }
+
+            if model.connectionState != .connected {
+                Section {
+                    Button {
+                        Task { await model.connectToOura() }
+                    } label: {
+                        HStack {
+                            Label("Connect to Oura", systemImage: "link")
+                            Spacer()
+                            if model.connectionState == .connecting {
+                                ProgressView()
+                            }
+                        }
+                    }
+                    .disabled(model.connectionState == .checking || model.connectionState == .connecting || model.connectionState == .unavailable)
+                    .accessibilityHint("Opens Oura's secure sign-in page. VitalSync never sees your password or passkey.")
+
+                    if let connectionMessage = model.connectionMessage {
+                        Label(connectionMessage, systemImage: "exclamationmark.triangle")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .accessibilityIdentifier("ouraConnectionMessage")
+                    }
+                } footer: {
+                    Text("Oura sign-in uses the system browser, including saved passwords and passkeys supported by Oura.")
+                }
             }
 
             Section {
@@ -40,8 +67,6 @@ struct SyncDashboardView: View {
                 }
                 .disabled(model.isSyncing)
                 .accessibilityHint("Uses fabricated data and does not access Apple Health or Oura")
-            } footer: {
-                Text("Live connection remains disabled until you configure your own token broker.")
             }
         }
         .navigationTitle("VitalSync")

@@ -60,6 +60,7 @@ actor TokenManager {
 
 enum AuthenticationError: Error, Equatable {
     case notConnected
+    case userCancelled
     case invalidCallback
     case stateMismatch
     case brokerRejected

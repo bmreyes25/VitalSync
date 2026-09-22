@@ -4,6 +4,7 @@ struct PrivacySettingsView: View {
     let model: AppModel
     @State private var exportToHealth = true
     @State private var showingTransferNotice = false
+    @State private var confirmingDisconnect = false
 
     var body: some View {
         Form {
@@ -32,9 +33,9 @@ struct PrivacySettingsView: View {
 
             Section {
                 Button("Disconnect Oura", role: .destructive) {
-                    model.connectionState = .disconnected
+                    confirmingDisconnect = true
                 }
-                .disabled(model.connectionState == .disconnected)
+                .disabled(model.connectionState != .connected)
             }
         }
         .navigationTitle("Privacy")
@@ -42,6 +43,14 @@ struct PrivacySettingsView: View {
             Button("Done", role: .cancel) {}
         } message: {
             Text("VitalSync asks for confirmation for each transfer. Imports are checked before processing, and exports use iOS complete file protection until you choose a destination.")
+        }
+        .confirmationDialog("Disconnect Oura?", isPresented: $confirmingDisconnect, titleVisibility: .visible) {
+            Button("Disconnect", role: .destructive) {
+                Task { await model.disconnectFromOura() }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This removes the saved Oura credentials from this device. Locally retained metrics are not deleted.")
         }
     }
 }

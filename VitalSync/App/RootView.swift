@@ -15,9 +15,12 @@ struct RootView: View {
                 .tabItem { Label("Privacy", systemImage: "hand.raised.fill") }
         }
         .tint(.blue)
+        .task {
+            await model.restoreConnectionState()
+        }
     }
 }
 
 #Preview {
-    RootView(model: AppModel())
+    RootView(model: AppModel(configurationIssue: "Preview configuration"))
 }

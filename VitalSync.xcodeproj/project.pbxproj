@@ -26,6 +26,7 @@
 		81EDB6DA504C36CB903A795E /* OuraClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E52E8BF14160188F287A391 /* OuraClientTests.swift */; };
 		85168DD581074232E532A04B /* BackfillPlannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC65EF501466DD02E72C11 /* BackfillPlannerTests.swift */; };
 		89AB6BB4AB2CB92C780BBB98 /* OuraModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B8059AAB6CF7542B107C92 /* OuraModels.swift */; };
+		8D434610A014E0E2564F5163 /* AppModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68CB4C847C35BEFF412F4E17 /* AppModelTests.swift */; };
 		B4BB2199C9E996FA7DCF799D /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFA33E55F63D22D77B6A1FD /* AppConfiguration.swift */; };
 		B92A6B9F4F550E85FB6F1ABC /* RedactedLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1696B5F5001F739C1DDFCDC3 /* RedactedLog.swift */; };
 		BDA5CFEE732DE97B5C97A9D0 /* VitalSyncApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4C0A1574C9AD95BC42D832 /* VitalSyncApp.swift */; };
@@ -71,6 +72,7 @@
 		582C3AA8AA1EEF2F084961CC /* OuraClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OuraClient.swift; sourceTree = "<group>"; };
 		5E52E8BF14160188F287A391 /* OuraClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OuraClientTests.swift; sourceTree = "<group>"; };
 		5FFA33E55F63D22D77B6A1FD /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
+		68CB4C847C35BEFF412F4E17 /* AppModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModelTests.swift; sourceTree = "<group>"; };
 		6C4C0A1574C9AD95BC42D832 /* VitalSyncApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalSyncApp.swift; sourceTree = "<group>"; };
 		71287BA7BE0881973ADE6FB1 /* HealthDataTransferPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataTransferPolicy.swift; sourceTree = "<group>"; };
 		7340FB682D45CB8DFC64E38B /* PersistenceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceStore.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				9E188E80240B666745B314D2 /* AppConfigurationTests.swift */,
+				68CB4C847C35BEFF412F4E17 /* AppModelTests.swift */,
 				16BC65EF501466DD02E72C11 /* BackfillPlannerTests.swift */,
 				A5D0B3D77661DB5169C9FF6C /* HealthDataTransferPolicyTests.swift */,
 				814056DFE2E6C13BF2609D26 /* HRVTranslationEngineTests.swift */,
@@ -393,6 +396,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D051A2DAF919757C4C99128F /* AppConfigurationTests.swift in Sources */,
+				8D434610A014E0E2564F5163 /* AppModelTests.swift in Sources */,
 				85168DD581074232E532A04B /* BackfillPlannerTests.swift in Sources */,
 				6B9BA417F0E353FF8AC6D04A /* HRVTranslationEngineTests.swift in Sources */,
 				CF6B7F81FCB5EE590CEACDFF /* HealthDataTransferPolicyTests.swift in Sources */,

@@ -23,7 +23,12 @@ struct OAuthConfiguration: Sendable {
 }
 
 @MainActor
-final class OAuthCoordinator: NSObject, ASWebAuthenticationPresentationContextProviding {
+protocol OAuthAuthorizing: AnyObject {
+    func connect() async throws
+}
+
+@MainActor
+final class OAuthCoordinator: NSObject, OAuthAuthorizing, ASWebAuthenticationPresentationContextProviding {
     private let configuration: OAuthConfiguration
     private let broker: any TokenBroker
     private let credentialStore: any CredentialStore
@@ -38,6 +43,7 @@ final class OAuthCoordinator: NSObject, ASWebAuthenticationPresentationContextPr
     func connect() async throws {
         let state = try Self.secureState()
         let authorizationURL = try makeAuthorizationURL(state: state)
+        defer { session = nil }
         let callbackURL = try await authenticate(at: authorizationURL)
         guard let components = URLComponents(url: callbackURL, resolvingAgainstBaseURL: false),
               components.queryValue(named: "state") == state else {
@@ -60,7 +66,12 @@ final class OAuthCoordinator: NSObject, ASWebAuthenticationPresentationContextPr
     private func authenticate(at url: URL) async throws -> URL {
         try await withCheckedThrowingContinuation { continuation in
             let session = ASWebAuthenticationSession(url: url, callbackURLScheme: configuration.callbackScheme) { callback, error in
-                if let error { continuation.resume(throwing: error) }
+                if let authenticationError = error as? ASWebAuthenticationSessionError,
+                   authenticationError.code == .canceledLogin {
+                    continuation.resume(throwing: AuthenticationError.userCancelled)
+                } else if let error {
+                    continuation.resume(throwing: error)
+                }
                 else if let callback { continuation.resume(returning: callback) }
                 else { continuation.resume(throwing: AuthenticationError.invalidCallback) }
             }
