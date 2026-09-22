@@ -1,0 +1,10 @@
+name = "vitalsync-oura-token-broker"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+
+[vars]
+OURA_CLIENT_ID = "YOUR_OURA_CLIENT_ID"
+ALLOWED_REDIRECT_URI = "vitalsync://oauth/oura/callback"
+
+# Set OURA_CLIENT_SECRET only with `wrangler secret put OURA_CLIENT_SECRET`.
+# Never place it in this file, source control, build settings, or the iOS app.
