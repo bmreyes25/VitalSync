@@ -1,0 +1,13 @@
+DerivedData/
+work/
+.build/
+build/
+*.xcuserstate
+xcuserdata/
+.DS_Store
+.env
+.env.*
+!.env.example
+Broker/node_modules/
+Broker/.wrangler/
+*.mobileprovision
