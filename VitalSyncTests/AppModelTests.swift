@@ -1,4 +1,5 @@
 import Foundation
+import SwiftData
 import Testing
 @testable import VitalSync
 
@@ -46,6 +47,39 @@ struct AppModelTests {
 
         #expect(model.connectionState == .disconnected)
         #expect(await store.load() == nil)
+    }
+
+    @Test func manualImportPersistsSyntheticHeartRateWithoutHealthAccessAndIsIdempotent() async throws {
+        let container = try ModelContainer(
+            for: StoredMetric.self, SyncLedgerEntry.self, SyncCursor.self, SyncRunRecord.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+        let store = InMemoryCredentialStore(tokens: .synthetic)
+        let timestamp = Date(timeIntervalSince1970: 1_893_553_445)
+        let client = SyntheticHeartRateClient(samples: [
+            OuraHeartRate(bpm: 63, source: "synthetic", timestamp: timestamp, timestampUnix: 1_893_553_445_000)
+        ])
+        let model = AppModel(authenticator: StubAuthenticator(), credentialStore: store, heartRateClient: client)
+        await model.restoreConnectionState()
+
+        await model.importHeartRate(into: container, exportToHealth: false)
+        #expect(model.lastSyncSummary.contains("1 new"))
+        #expect(model.syncErrorMessage == nil)
+
+        await model.importHeartRate(into: container, exportToHealth: false)
+        #expect(model.lastSyncSummary.contains("1 already saved"))
+
+        let metrics = try container.mainContext.fetch(FetchDescriptor<StoredMetric>())
+        #expect(metrics.count == 1)
+        #expect(metrics.first?.value == 63)
+    }
+}
+
+private struct SyntheticHeartRateClient: OuraHeartRateFetching {
+    let samples: [OuraHeartRate]
+
+    func fetchHeartRates(from startDate: Date, through endDate: Date) async throws -> [OuraHeartRate] {
+        samples
     }
 }
 

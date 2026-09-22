@@ -42,8 +42,9 @@ actor HealthKitService: HealthDataWriting {
                 end: metric.endDate,
                 metadata: metadata(for: metric)
             )
-            try await replaceExistingSamples(type: type, metric: metric)
+            let previous = try await existingSamples(type: type, metric: metric)
             try await store.save(sample)
+            if !previous.isEmpty { try await store.delete(previous) }
             return .saved(destinationID: sample.uuid.uuidString)
         case .category(let identifier):
             guard let type = HKCategoryType.categoryType(forIdentifier: identifier),
@@ -56,8 +57,9 @@ actor HealthKitService: HealthDataWriting {
                 end: metric.endDate,
                 metadata: metadata(for: metric)
             )
-            try await replaceExistingSamples(type: type, metric: metric)
+            let previous = try await existingSamples(type: type, metric: metric)
             try await store.save(sample)
+            if !previous.isEmpty { try await store.delete(previous) }
             return .saved(destinationID: sample.uuid.uuidString)
         case .workout:
             return .unsupported(reason: "Workout route and activity mapping requires explicit source details")
@@ -65,7 +67,7 @@ actor HealthKitService: HealthDataWriting {
     }
 
     private func writableTypes() -> Set<HKSampleType> {
-        Set(HealthMetricKind.allCases.compactMap { kind in
+        Set([HealthMetricKind.heartRate].compactMap { kind in
             switch mappingPolicy.mapping(for: kind) {
             case .quantity(let identifier, _): return HKQuantityType.quantityType(forIdentifier: identifier)
             case .category(let identifier): return HKCategoryType.categoryType(forIdentifier: identifier)
@@ -91,7 +93,7 @@ actor HealthKitService: HealthDataWriting {
         ]
     }
 
-    private func replaceExistingSamples(type: HKSampleType, metric: NormalizedMetric) async throws {
+    private func existingSamples(type: HKSampleType, metric: NormalizedMetric) async throws -> [HKSample] {
         let predicate = HKQuery.predicateForObjects(
             withMetadataKey: HKMetadataKeySyncIdentifier,
             allowedValues: ["vitalsync:\(metric.id)"]
@@ -108,6 +110,6 @@ actor HealthKitService: HealthDataWriting {
             }
             store.execute(query)
         }
-        if !samples.isEmpty { try await store.delete(samples) }
+        return samples
     }
 }

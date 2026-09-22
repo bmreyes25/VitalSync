@@ -86,6 +86,12 @@ struct OuraHeartRate: Codable, Hashable, Sendable {
     let bpm: Int
     let source: String?
     let timestamp: Date
+    let timestampUnix: Int64?
+
+    enum CodingKeys: String, CodingKey {
+        case bpm, source, timestamp
+        case timestampUnix = "timestamp_unix"
+    }
 }
 
 struct OuraSpO2: Codable, Hashable, Sendable {

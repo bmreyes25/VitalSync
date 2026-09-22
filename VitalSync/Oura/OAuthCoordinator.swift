@@ -17,7 +17,7 @@ struct OAuthConfiguration: Sendable {
             authorizationURL: URL(string: "https://cloud.ouraring.com/oauth/authorize")!,
             redirectURI: URL(string: "vitalsync://oauth/oura/callback")!,
             callbackScheme: "vitalsync",
-            scopes: ["personal", "daily", "heartrate", "tag", "workout", "session", "spo2", "ring_configuration", "stress", "heart_health"]
+            scopes: ["heartrate"]
         )
     }
 }
@@ -57,10 +57,15 @@ final class OAuthCoordinator: NSObject, OAuthAuthorizing, ASWebAuthenticationPre
     }
 
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        UIApplication.shared.connectedScenes
+        let windowScenes = UIApplication.shared.connectedScenes
             .compactMap { $0 as? UIWindowScene }
-            .flatMap(\.windows)
-            .first(where: \.isKeyWindow) ?? ASPresentationAnchor()
+        if let keyWindow = windowScenes.flatMap(\.windows).first(where: \.isKeyWindow) {
+            return keyWindow
+        }
+        guard let fallbackWindow = windowScenes.first?.windows.first else {
+            preconditionFailure("Oura authentication requires an active app window")
+        }
+        return fallbackWindow
     }
 
     private func authenticate(at url: URL) async throws -> URL {

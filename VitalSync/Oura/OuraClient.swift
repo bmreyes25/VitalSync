@@ -48,6 +48,10 @@ enum OuraAPIError: Error, Equatable {
     case paginationCycle
 }
 
+protocol OuraHeartRateFetching: Sendable {
+    func fetchHeartRates(from startDate: Date, through endDate: Date) async throws -> [OuraHeartRate]
+}
+
 struct OuraClient: Sendable {
     private let baseURL: URL
     private let transport: any HTTPTransport
@@ -90,6 +94,10 @@ struct OuraClient: Sendable {
             token = page.nextToken
         } while token != nil
         return collected
+    }
+
+    func fetchHeartRates(from startDate: Date, through endDate: Date) async throws -> [OuraHeartRate] {
+        try await fetchAll(endpoint: .heartrate, startDate: startDate, endDate: endDate, as: OuraHeartRate.self)
     }
 
     private func fetchPage<Element: Decodable & Sendable>(
@@ -147,8 +155,19 @@ struct OuraClient: Sendable {
         }
         var items: [URLQueryItem] = []
         if endpoint.supportsDateRange {
-            if let startDate { items.append(URLQueryItem(name: "start_date", value: Self.ouraDay(startDate))) }
-            if let endDate { items.append(URLQueryItem(name: "end_date", value: Self.ouraDay(endDate))) }
+            let timeSeries = endpoint == .heartrate
+            if let startDate {
+                items.append(URLQueryItem(
+                    name: timeSeries ? "start_datetime" : "start_date",
+                    value: timeSeries ? Self.ouraTimestamp(startDate) : Self.ouraDay(startDate)
+                ))
+            }
+            if let endDate {
+                items.append(URLQueryItem(
+                    name: timeSeries ? "end_datetime" : "end_date",
+                    value: timeSeries ? Self.ouraTimestamp(endDate) : Self.ouraDay(endDate)
+                ))
+            }
         }
         if let nextToken { items.append(URLQueryItem(name: "next_token", value: nextToken)) }
         components.queryItems = items.isEmpty ? nil : items
@@ -168,4 +187,10 @@ struct OuraClient: Sendable {
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter.string(from: date)
     }
+
+    private static func ouraTimestamp(_ date: Date) -> String {
+        ISO8601DateFormatter().string(from: date)
+    }
 }
+
+extension OuraClient: OuraHeartRateFetching {}

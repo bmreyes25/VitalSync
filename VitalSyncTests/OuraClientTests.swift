@@ -33,6 +33,24 @@ final class OuraClientTests: XCTestCase {
         XCTAssertEqual(sleepCount, 1)
     }
 
+    func testHeartRateUsesDatetimeBoundsAndDecodesSample() async throws {
+        let body = #"{"data":[{"timestamp":"2030-01-02T03:04:05Z","timestamp_unix":1893553445000,"bpm":64,"source":"awake"}],"next_token":null}"#.data(using: .utf8)!
+        let transport = QueueTransport(responses: [response(body, status: 200)])
+        let client = makeClient(transport: transport)
+        let start = ISO8601DateFormatter().date(from: "2030-01-01T00:00:00Z")!
+        let end = ISO8601DateFormatter().date(from: "2030-01-03T00:00:00Z")!
+
+        let samples = try await client.fetchHeartRates(from: start, through: end)
+        let requests = await transport.requests
+        let query = URLComponents(url: requests[0].url!, resolvingAgainstBaseURL: false)!.queryItems!
+
+        XCTAssertEqual(samples.count, 1)
+        XCTAssertEqual(samples[0].bpm, 64)
+        XCTAssertEqual(query.first(where: { $0.name == "start_datetime" })?.value, "2030-01-01T00:00:00Z")
+        XCTAssertEqual(query.first(where: { $0.name == "end_datetime" })?.value, "2030-01-03T00:00:00Z")
+        XCTAssertFalse(query.contains(where: { $0.name == "start_date" }))
+    }
+
     private func makeClient(
         transport: QueueTransport,
         sleeper: RecordingSleeper = RecordingSleeper()
