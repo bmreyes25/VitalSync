@@ -16,6 +16,10 @@
     <string>0.1.0</string>
     <key>CFBundleVersion</key>
     <string>1</string>
+    <key>OuraClientID</key>
+    <string>$(OURA_CLIENT_ID)</string>
+    <key>TokenBrokerBaseURL</key>
+    <string>$(TOKEN_BROKER_BASE_URL)</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>NSHealthShareUsageDescription</key>

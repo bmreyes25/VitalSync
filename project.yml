@@ -14,6 +14,9 @@ targets:
   VitalSync:
     type: application
     platform: iOS
+    configFiles:
+      Debug: VitalSync/Configuration/Base.xcconfig
+      Release: VitalSync/Configuration/Base.xcconfig
     sources:
       - VitalSync
     settings:

@@ -1,0 +1,7 @@
+// Safe defaults committed to source control. Local values override these below.
+OURA_CLIENT_ID = YOUR_OURA_CLIENT_ID
+TOKEN_BROKER_BASE_URL = https:/$()/YOUR_BROKER.workers.dev
+
+// This file is ignored by Git and may contain the public client ID and broker URL.
+// Never put OURA_CLIENT_SECRET in any iOS configuration file.
+#include? "Secrets.xcconfig"

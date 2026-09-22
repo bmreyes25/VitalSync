@@ -26,6 +26,7 @@
 		81EDB6DA504C36CB903A795E /* OuraClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E52E8BF14160188F287A391 /* OuraClientTests.swift */; };
 		85168DD581074232E532A04B /* BackfillPlannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC65EF501466DD02E72C11 /* BackfillPlannerTests.swift */; };
 		89AB6BB4AB2CB92C780BBB98 /* OuraModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B8059AAB6CF7542B107C92 /* OuraModels.swift */; };
+		B4BB2199C9E996FA7DCF799D /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFA33E55F63D22D77B6A1FD /* AppConfiguration.swift */; };
 		B92A6B9F4F550E85FB6F1ABC /* RedactedLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1696B5F5001F739C1DDFCDC3 /* RedactedLog.swift */; };
 		BDA5CFEE732DE97B5C97A9D0 /* VitalSyncApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4C0A1574C9AD95BC42D832 /* VitalSyncApp.swift */; };
 		C121E32F871F95F585763952 /* BackgroundSyncScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0281F6D0CE454A38F44E57D0 /* BackgroundSyncScheduler.swift */; };
@@ -33,6 +34,7 @@
 		C2A26F2A606E268625170AAD /* OAuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F38B4AEC37EAFE55595927 /* OAuthCoordinator.swift */; };
 		CCF8922E8FC3688E93E0E0F8 /* HealthDataTransferPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71287BA7BE0881973ADE6FB1 /* HealthDataTransferPolicy.swift */; };
 		CF6B7F81FCB5EE590CEACDFF /* HealthDataTransferPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D0B3D77661DB5169C9FF6C /* HealthDataTransferPolicyTests.swift */; };
+		D051A2DAF919757C4C99128F /* AppConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E188E80240B666745B314D2 /* AppConfigurationTests.swift */; };
 		D0A3008E2E26F27DD1FDF291 /* SyncDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C566A79588DB0E49A668EF2A /* SyncDashboardView.swift */; };
 		D307E8106753E249C2684844 /* PersistentModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069177EFA2DF3597AADB03BE /* PersistentModels.swift */; };
 		D8A80258C81ED1FBEA5186BA /* HealthMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FF6E6661BEDBEC79EB4E46 /* HealthMetric.swift */; };
@@ -62,21 +64,25 @@
 		2F2CE4E8CC027140F2A01F85 /* TokenManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManagerTests.swift; sourceTree = "<group>"; };
 		33EF1D926AC435904897EA90 /* SyncEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncEngine.swift; sourceTree = "<group>"; };
 		344C84B860B74D7845D1B260 /* BackfillPlanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackfillPlanner.swift; sourceTree = "<group>"; };
+		3D508EB1CCADE67A0C1AC219 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		408A69FDF2A2C4A1E0F39485 /* KeychainCredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainCredentialStore.swift; sourceTree = "<group>"; };
 		464370DCCED8DA83E7921673 /* PersistenceStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceStoreTests.swift; sourceTree = "<group>"; };
 		538A47522255564EB3BF676E /* BrokerClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrokerClient.swift; sourceTree = "<group>"; };
 		582C3AA8AA1EEF2F084961CC /* OuraClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OuraClient.swift; sourceTree = "<group>"; };
 		5E52E8BF14160188F287A391 /* OuraClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OuraClientTests.swift; sourceTree = "<group>"; };
+		5FFA33E55F63D22D77B6A1FD /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		6C4C0A1574C9AD95BC42D832 /* VitalSyncApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalSyncApp.swift; sourceTree = "<group>"; };
 		71287BA7BE0881973ADE6FB1 /* HealthDataTransferPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataTransferPolicy.swift; sourceTree = "<group>"; };
 		7340FB682D45CB8DFC64E38B /* PersistenceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceStore.swift; sourceTree = "<group>"; };
 		814056DFE2E6C13BF2609D26 /* HRVTranslationEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HRVTranslationEngineTests.swift; sourceTree = "<group>"; };
 		9A226BDD1122D8C83A465D61 /* OAuthTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokens.swift; sourceTree = "<group>"; };
+		9E188E80240B666745B314D2 /* AppConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigurationTests.swift; sourceTree = "<group>"; };
 		A59653F3F13D4EC48C25462D /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
 		A5D0B3D77661DB5169C9FF6C /* HealthDataTransferPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataTransferPolicyTests.swift; sourceTree = "<group>"; };
 		ACB49D92003FE97178CABE08 /* HealthKitMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitMapping.swift; sourceTree = "<group>"; };
 		AE6F2EBB8F46579F923CDD2C /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		B2BB969BD3A49A1CAC648067 /* LocalDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDataView.swift; sourceTree = "<group>"; };
+		BCC18C38E09B2D1264356450 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
 		C3F9EF8826C45D220447BB06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C566A79588DB0E49A668EF2A /* SyncDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncDashboardView.swift; sourceTree = "<group>"; };
 		CC85400CA0803E30D29DDD62 /* PrivacySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettingsView.swift; sourceTree = "<group>"; };
@@ -109,6 +115,9 @@
 		2D5B4CD505135866880033AA /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				5FFA33E55F63D22D77B6A1FD /* AppConfiguration.swift */,
+				BCC18C38E09B2D1264356450 /* Base.xcconfig */,
+				3D508EB1CCADE67A0C1AC219 /* Secrets.xcconfig */,
 				E2D69983D1260E3CFBE229FD /* Secrets.xcconfig.example */,
 			);
 			path = Configuration;
@@ -145,6 +154,7 @@
 		5A071535544949FBC4FB122D /* VitalSyncTests */ = {
 			isa = PBXGroup;
 			children = (
+				9E188E80240B666745B314D2 /* AppConfigurationTests.swift */,
 				16BC65EF501466DD02E72C11 /* BackfillPlannerTests.swift */,
 				A5D0B3D77661DB5169C9FF6C /* HealthDataTransferPolicyTests.swift */,
 				814056DFE2E6C13BF2609D26 /* HRVTranslationEngineTests.swift */,
@@ -350,6 +360,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4BB2199C9E996FA7DCF799D /* AppConfiguration.swift in Sources */,
 				236406032EFB629D3344E56E /* AppModel.swift in Sources */,
 				014ADBC86157CA6FCEB8842A /* BackfillPlanner.swift in Sources */,
 				C121E32F871F95F585763952 /* BackgroundSyncScheduler.swift in Sources */,
@@ -381,6 +392,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D051A2DAF919757C4C99128F /* AppConfigurationTests.swift in Sources */,
 				85168DD581074232E532A04B /* BackfillPlannerTests.swift in Sources */,
 				6B9BA417F0E353FF8AC6D04A /* HRVTranslationEngineTests.swift in Sources */,
 				CF6B7F81FCB5EE590CEACDFF /* HealthDataTransferPolicyTests.swift in Sources */,
@@ -562,6 +574,7 @@
 		};
 		CCF252E9ABE9FC29B46BF161 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCC18C38E09B2D1264356450 /* Base.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = VitalSync/Resources/VitalSync.entitlements;
@@ -581,6 +594,7 @@
 		};
 		E875423C511BA54D3F3D3E03 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCC18C38E09B2D1264356450 /* Base.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = VitalSync/Resources/VitalSync.entitlements;

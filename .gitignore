@@ -10,5 +10,7 @@ xcuserdata/
 !.env.example
 Broker/node_modules/
 Broker/.wrangler/
+Broker/.dev.vars
+Broker/.dev.vars.*
 *.mobileprovision
 VitalSync/Configuration/Secrets.xcconfig

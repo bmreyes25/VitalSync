@@ -3,8 +3,7 @@ main = "src/index.ts"
 compatibility_date = "2026-09-01"
 
 [vars]
-OURA_CLIENT_ID = "YOUR_OURA_CLIENT_ID"
 ALLOWED_REDIRECT_URI = "vitalsync://oauth/oura/callback"
 
-# Set OURA_CLIENT_SECRET only with `wrangler secret put OURA_CLIENT_SECRET`.
+# Set OURA_CLIENT_ID and OURA_CLIENT_SECRET through Cloudflare's protected prompt.
 # Never place it in this file, source control, build settings, or the iOS app.

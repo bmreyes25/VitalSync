@@ -11,13 +11,15 @@ struct OAuthConfiguration: Sendable {
     let callbackScheme: String
     let scopes: [String]
 
-    static let placeholder = OAuthConfiguration(
-        clientID: "YOUR_OURA_CLIENT_ID",
-        authorizationURL: URL(string: "https://cloud.ouraring.com/oauth/authorize")!,
-        redirectURI: URL(string: "vitalsync://oauth/oura/callback")!,
-        callbackScheme: "vitalsync",
-        scopes: ["personal", "daily", "heartrate", "tag", "workout", "session", "spo2", "ring_configuration", "stress", "heart_health"]
-    )
+    static func live(appConfiguration: AppConfiguration) -> OAuthConfiguration {
+        OAuthConfiguration(
+            clientID: appConfiguration.ouraClientID,
+            authorizationURL: URL(string: "https://cloud.ouraring.com/oauth/authorize")!,
+            redirectURI: URL(string: "vitalsync://oauth/oura/callback")!,
+            callbackScheme: "vitalsync",
+            scopes: ["personal", "daily", "heartrate", "tag", "workout", "session", "spo2", "ring_configuration", "stress", "heart_health"]
+        )
+    }
 }
 
 @MainActor
