@@ -14,7 +14,7 @@ struct RootView: View {
             NavigationStack { PrivacySettingsView(model: model) }
                 .tabItem { Label("Privacy", systemImage: "hand.raised.fill") }
         }
-        .tint(.blue)
+        .tint(VitalPalette.accent)
         .task {
             await model.restoreConnectionState()
         }

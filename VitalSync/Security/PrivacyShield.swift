@@ -6,8 +6,7 @@ struct PrivacyShield<Content: View>: View {
 
     var body: some View {
         ZStack {
-            content
-                .privacySensitive()
+            protectedContent
 
             if scenePhase != .active {
                 Color(.systemBackground)
@@ -26,5 +25,18 @@ struct PrivacyShield<Content: View>: View {
                     .transition(.opacity)
             }
         }
+    }
+
+    @ViewBuilder
+    private var protectedContent: some View {
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-SyntheticStoreScreenshots") {
+            content
+        } else {
+            content.privacySensitive()
+        }
+        #else
+        content.privacySensitive()
+        #endif
     }
 }

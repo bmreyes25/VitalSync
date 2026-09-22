@@ -13,26 +13,43 @@
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>0.1.0</string>
+    <string>$(MARKETING_VERSION)</string>
     <key>CFBundleVersion</key>
-    <string>1</string>
+    <string>$(CURRENT_PROJECT_VERSION)</string>
     <key>OuraClientID</key>
     <string>$(OURA_CLIENT_ID)</string>
     <key>TokenBrokerBaseURL</key>
     <string>$(TOKEN_BROKER_BASE_URL)</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
     <key>NSHealthShareUsageDescription</key>
     <string>VitalSync reads your authorized Health data only to reconcile imports and prevent duplicates.</string>
     <key>NSHealthUpdateUsageDescription</key>
     <string>VitalSync writes only compatible Oura measurements you explicitly choose to Apple Health.</string>
     <key>BGTaskSchedulerPermittedIdentifiers</key>
     <array>
-        <string>com.example.VitalSync.refresh</string>
+        <string>com.bmreyes25.VitalSync.refresh</string>
     </array>
     <key>UIBackgroundModes</key>
     <array>
         <string>processing</string>
+    </array>
+    <key>UILaunchScreen</key>
+    <dict/>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+    <key>UISupportedInterfaceOrientations~ipad</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationPortraitUpsideDown</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
     </array>
     <key>CFBundleURLTypes</key>
     <array>
