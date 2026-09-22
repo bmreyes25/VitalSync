@@ -10,11 +10,14 @@
 		014ADBC86157CA6FCEB8842A /* BackfillPlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344C84B860B74D7845D1B260 /* BackfillPlanner.swift */; };
 		1F0F603ED1CD28C8B384D9FF /* HRVTranslationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5F2A0136D18405CEDD43D /* HRVTranslationEngine.swift */; };
 		236406032EFB629D3344E56E /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1DDD539F3329BF94F78FAD4 /* AppModel.swift */; };
+		26976C22E26A8FEB33415DDB /* Secrets.xcconfig.example in Resources */ = {isa = PBXBuildFile; fileRef = E2D69983D1260E3CFBE229FD /* Secrets.xcconfig.example */; };
 		2729A8593AF347236020A6B2 /* HealthKitMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB49D92003FE97178CABE08 /* HealthKitMapping.swift */; };
 		29FC93B57D2B9F5028A7A956 /* PersistenceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7340FB682D45CB8DFC64E38B /* PersistenceStore.swift */; };
 		2A9A20B6F4FB3C800B43FE04 /* SyncEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EF1D926AC435904897EA90 /* SyncEngine.swift */; };
 		2FE1F02B955912E607122E09 /* OAuthTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A226BDD1122D8C83A465D61 /* OAuthTokens.swift */; };
-		3ED399063B563449CA85E8AD /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D5D2EB35C66B167A0C7FD9 /* RootView.swift */; };
+		36BBE7B4A31DDEEC52E37898 /* LocalDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BB969BD3A49A1CAC648067 /* LocalDataView.swift */; };
+		46BB2F0246ED510CD8974994 /* PrivacyShield.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED3D7962CFAF7CD1EF91474 /* PrivacyShield.swift */; };
+		4B89897CFAD337479899BD44 /* PrivacySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC85400CA0803E30D29DDD62 /* PrivacySettingsView.swift */; };
 		5A73A5F968A1FB2F49411609 /* PersistenceStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464370DCCED8DA83E7921673 /* PersistenceStoreTests.swift */; };
 		5EA980210BD8A4B84580EEFD /* BrokerClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538A47522255564EB3BF676E /* BrokerClient.swift */; };
 		693DA2CD20D6DB78EFD04605 /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59653F3F13D4EC48C25462D /* HealthKitService.swift */; };
@@ -28,8 +31,12 @@
 		C121E32F871F95F585763952 /* BackgroundSyncScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0281F6D0CE454A38F44E57D0 /* BackgroundSyncScheduler.swift */; };
 		C173B80063B00BCC8D49CFCD /* TokenManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2CE4E8CC027140F2A01F85 /* TokenManagerTests.swift */; };
 		C2A26F2A606E268625170AAD /* OAuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F38B4AEC37EAFE55595927 /* OAuthCoordinator.swift */; };
+		CCF8922E8FC3688E93E0E0F8 /* HealthDataTransferPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71287BA7BE0881973ADE6FB1 /* HealthDataTransferPolicy.swift */; };
+		CF6B7F81FCB5EE590CEACDFF /* HealthDataTransferPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D0B3D77661DB5169C9FF6C /* HealthDataTransferPolicyTests.swift */; };
+		D0A3008E2E26F27DD1FDF291 /* SyncDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C566A79588DB0E49A668EF2A /* SyncDashboardView.swift */; };
 		D307E8106753E249C2684844 /* PersistentModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069177EFA2DF3597AADB03BE /* PersistentModels.swift */; };
 		D8A80258C81ED1FBEA5186BA /* HealthMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FF6E6661BEDBEC79EB4E46 /* HealthMetric.swift */; };
+		EC5B4E8537816F069F630FC6 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6F2EBB8F46579F923CDD2C /* RootView.swift */; };
 		FFA6793F2C98B1CB44614D2E /* KeychainCredentialStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408A69FDF2A2C4A1E0F39485 /* KeychainCredentialStore.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +58,7 @@
 		15B8059AAB6CF7542B107C92 /* OuraModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OuraModels.swift; sourceTree = "<group>"; };
 		1696B5F5001F739C1DDFCDC3 /* RedactedLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedactedLog.swift; sourceTree = "<group>"; };
 		16BC65EF501466DD02E72C11 /* BackfillPlannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackfillPlannerTests.swift; sourceTree = "<group>"; };
+		2ED3D7962CFAF7CD1EF91474 /* PrivacyShield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyShield.swift; sourceTree = "<group>"; };
 		2F2CE4E8CC027140F2A01F85 /* TokenManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManagerTests.swift; sourceTree = "<group>"; };
 		33EF1D926AC435904897EA90 /* SyncEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncEngine.swift; sourceTree = "<group>"; };
 		344C84B860B74D7845D1B260 /* BackfillPlanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackfillPlanner.swift; sourceTree = "<group>"; };
@@ -60,14 +68,20 @@
 		582C3AA8AA1EEF2F084961CC /* OuraClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OuraClient.swift; sourceTree = "<group>"; };
 		5E52E8BF14160188F287A391 /* OuraClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OuraClientTests.swift; sourceTree = "<group>"; };
 		6C4C0A1574C9AD95BC42D832 /* VitalSyncApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalSyncApp.swift; sourceTree = "<group>"; };
+		71287BA7BE0881973ADE6FB1 /* HealthDataTransferPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataTransferPolicy.swift; sourceTree = "<group>"; };
 		7340FB682D45CB8DFC64E38B /* PersistenceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceStore.swift; sourceTree = "<group>"; };
 		814056DFE2E6C13BF2609D26 /* HRVTranslationEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HRVTranslationEngineTests.swift; sourceTree = "<group>"; };
 		9A226BDD1122D8C83A465D61 /* OAuthTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokens.swift; sourceTree = "<group>"; };
 		A59653F3F13D4EC48C25462D /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
+		A5D0B3D77661DB5169C9FF6C /* HealthDataTransferPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataTransferPolicyTests.swift; sourceTree = "<group>"; };
 		ACB49D92003FE97178CABE08 /* HealthKitMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitMapping.swift; sourceTree = "<group>"; };
+		AE6F2EBB8F46579F923CDD2C /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		B2BB969BD3A49A1CAC648067 /* LocalDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDataView.swift; sourceTree = "<group>"; };
 		C3F9EF8826C45D220447BB06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C566A79588DB0E49A668EF2A /* SyncDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncDashboardView.swift; sourceTree = "<group>"; };
+		CC85400CA0803E30D29DDD62 /* PrivacySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettingsView.swift; sourceTree = "<group>"; };
 		D1DDD539F3329BF94F78FAD4 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
-		D5D5D2EB35C66B167A0C7FD9 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		E2D69983D1260E3CFBE229FD /* Secrets.xcconfig.example */ = {isa = PBXFileReference; path = Secrets.xcconfig.example; sourceTree = "<group>"; };
 		E2E7AA25B59B3202C654404D /* VitalSync.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = VitalSync.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6F38B4AEC37EAFE55595927 /* OAuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthCoordinator.swift; sourceTree = "<group>"; };
 		E6FCC9BE58CD45419C7FCB69 /* VitalSyncTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = VitalSyncTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,15 +93,25 @@
 			isa = PBXGroup;
 			children = (
 				4E94BC07385461FC591D1665 /* App */,
+				2D5B4CD505135866880033AA /* Configuration */,
 				2E157434EED004B42FDB0E7A /* Domain */,
+				A60D19971D0A679D602E3466 /* Features */,
 				8E078F0B57490B89E292E9EC /* HealthKit */,
 				7DA87165565C134417B5ACEA /* Oura */,
 				D596104218E650F26C7AA482 /* Persistence */,
 				F37767FAFCD8F7C40E314F24 /* Resources */,
+				EC13B73500DA94B997B6E740 /* Security */,
 				713590E8F8698ADB63DDAD11 /* Sync */,
-				53296C32999B4A825A08DE1B /* UI */,
 			);
 			path = VitalSync;
+			sourceTree = "<group>";
+		};
+		2D5B4CD505135866880033AA /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				E2D69983D1260E3CFBE229FD /* Secrets.xcconfig.example */,
+			);
+			path = Configuration;
 			sourceTree = "<group>";
 		};
 		2E157434EED004B42FDB0E7A /* Domain */ = {
@@ -100,27 +124,29 @@
 			path = Domain;
 			sourceTree = "<group>";
 		};
+		4B0A68CC11F95EB34519CF18 /* Privacy */ = {
+			isa = PBXGroup;
+			children = (
+				CC85400CA0803E30D29DDD62 /* PrivacySettingsView.swift */,
+			);
+			path = Privacy;
+			sourceTree = "<group>";
+		};
 		4E94BC07385461FC591D1665 /* App */ = {
 			isa = PBXGroup;
 			children = (
 				D1DDD539F3329BF94F78FAD4 /* AppModel.swift */,
+				AE6F2EBB8F46579F923CDD2C /* RootView.swift */,
 				6C4C0A1574C9AD95BC42D832 /* VitalSyncApp.swift */,
 			);
 			path = App;
-			sourceTree = "<group>";
-		};
-		53296C32999B4A825A08DE1B /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				D5D5D2EB35C66B167A0C7FD9 /* RootView.swift */,
-			);
-			path = UI;
 			sourceTree = "<group>";
 		};
 		5A071535544949FBC4FB122D /* VitalSyncTests */ = {
 			isa = PBXGroup;
 			children = (
 				16BC65EF501466DD02E72C11 /* BackfillPlannerTests.swift */,
+				A5D0B3D77661DB5169C9FF6C /* HealthDataTransferPolicyTests.swift */,
 				814056DFE2E6C13BF2609D26 /* HRVTranslationEngineTests.swift */,
 				5E52E8BF14160188F287A391 /* OuraClientTests.swift */,
 				464370DCCED8DA83E7921673 /* PersistenceStoreTests.swift */,
@@ -179,6 +205,32 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		9CDE2A631EEFD0589F151F2B /* Sync */ = {
+			isa = PBXGroup;
+			children = (
+				C566A79588DB0E49A668EF2A /* SyncDashboardView.swift */,
+			);
+			path = Sync;
+			sourceTree = "<group>";
+		};
+		A60D19971D0A679D602E3466 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				B8E07BE5094BDC7F273E7139 /* Data */,
+				4B0A68CC11F95EB34519CF18 /* Privacy */,
+				9CDE2A631EEFD0589F151F2B /* Sync */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		B8E07BE5094BDC7F273E7139 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				B2BB969BD3A49A1CAC648067 /* LocalDataView.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		D596104218E650F26C7AA482 /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +238,15 @@
 				069177EFA2DF3597AADB03BE /* PersistentModels.swift */,
 			);
 			path = Persistence;
+			sourceTree = "<group>";
+		};
+		EC13B73500DA94B997B6E740 /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				71287BA7BE0881973ADE6FB1 /* HealthDataTransferPolicy.swift */,
+				2ED3D7962CFAF7CD1EF91474 /* PrivacyShield.swift */,
+			);
+			path = Security;
 			sourceTree = "<group>";
 		};
 		F37767FAFCD8F7C40E314F24 /* Resources */ = {
@@ -205,6 +266,7 @@
 			buildConfigurationList = C78045B613B26F23AFE954D5 /* Build configuration list for PBXNativeTarget "VitalSync" */;
 			buildPhases = (
 				057AB0063EDD388EF283A395 /* Sources */,
+				4AA18BFB791EF80C56375C2E /* Resources */,
 			);
 			buildRules = (
 			);
@@ -272,6 +334,17 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		4AA18BFB791EF80C56375C2E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				26976C22E26A8FEB33415DDB /* Secrets.xcconfig.example in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		057AB0063EDD388EF283A395 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -282,18 +355,23 @@
 				C121E32F871F95F585763952 /* BackgroundSyncScheduler.swift in Sources */,
 				5EA980210BD8A4B84580EEFD /* BrokerClient.swift in Sources */,
 				1F0F603ED1CD28C8B384D9FF /* HRVTranslationEngine.swift in Sources */,
+				CCF8922E8FC3688E93E0E0F8 /* HealthDataTransferPolicy.swift in Sources */,
 				2729A8593AF347236020A6B2 /* HealthKitMapping.swift in Sources */,
 				693DA2CD20D6DB78EFD04605 /* HealthKitService.swift in Sources */,
 				D8A80258C81ED1FBEA5186BA /* HealthMetric.swift in Sources */,
 				FFA6793F2C98B1CB44614D2E /* KeychainCredentialStore.swift in Sources */,
+				36BBE7B4A31DDEEC52E37898 /* LocalDataView.swift in Sources */,
 				C2A26F2A606E268625170AAD /* OAuthCoordinator.swift in Sources */,
 				2FE1F02B955912E607122E09 /* OAuthTokens.swift in Sources */,
 				74F9854B0B88A6FE92C797DB /* OuraClient.swift in Sources */,
 				89AB6BB4AB2CB92C780BBB98 /* OuraModels.swift in Sources */,
 				29FC93B57D2B9F5028A7A956 /* PersistenceStore.swift in Sources */,
 				D307E8106753E249C2684844 /* PersistentModels.swift in Sources */,
+				4B89897CFAD337479899BD44 /* PrivacySettingsView.swift in Sources */,
+				46BB2F0246ED510CD8974994 /* PrivacyShield.swift in Sources */,
 				B92A6B9F4F550E85FB6F1ABC /* RedactedLog.swift in Sources */,
-				3ED399063B563449CA85E8AD /* RootView.swift in Sources */,
+				EC5B4E8537816F069F630FC6 /* RootView.swift in Sources */,
+				D0A3008E2E26F27DD1FDF291 /* SyncDashboardView.swift in Sources */,
 				2A9A20B6F4FB3C800B43FE04 /* SyncEngine.swift in Sources */,
 				BDA5CFEE732DE97B5C97A9D0 /* VitalSyncApp.swift in Sources */,
 			);
@@ -305,6 +383,7 @@
 			files = (
 				85168DD581074232E532A04B /* BackfillPlannerTests.swift in Sources */,
 				6B9BA417F0E353FF8AC6D04A /* HRVTranslationEngineTests.swift in Sources */,
+				CF6B7F81FCB5EE590CEACDFF /* HealthDataTransferPolicyTests.swift in Sources */,
 				81EDB6DA504C36CB903A795E /* OuraClientTests.swift in Sources */,
 				5A73A5F968A1FB2F49411609 /* PersistenceStoreTests.swift in Sources */,
 				C173B80063B00BCC8D49CFCD /* TokenManagerTests.swift in Sources */,

@@ -1,24 +1,6 @@
 import SwiftUI
 
-struct RootView: View {
-    let model: AppModel
-
-    var body: some View {
-        TabView {
-            NavigationStack { DashboardView(model: model) }
-                .tabItem { Label("Sync", systemImage: "arrow.triangle.2.circlepath") }
-
-            NavigationStack { DataView() }
-                .tabItem { Label("Data", systemImage: "waveform.path.ecg") }
-
-            NavigationStack { PrivacyView(model: model) }
-                .tabItem { Label("Privacy", systemImage: "hand.raised.fill") }
-        }
-        .tint(.blue)
-    }
-}
-
-private struct DashboardView: View {
+struct SyncDashboardView: View {
     let model: AppModel
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -33,7 +15,6 @@ private struct DashboardView: View {
                     Text("Private health syncing")
                         .font(.title2.bold())
                     Text("Oura data stays under your control. Only compatible measurements are eligible for Apple Health.")
-                        .font(.body)
                         .foregroundStyle(.secondary)
                 }
                 .padding(.vertical, 8)
@@ -66,47 +47,4 @@ private struct DashboardView: View {
         .navigationTitle("VitalSync")
         .animation(reduceMotion ? nil : .default, value: model.isSyncing)
     }
-}
-
-private struct DataView: View {
-    var body: some View {
-        ContentUnavailableView(
-            "No imported data",
-            systemImage: "waveform.path.ecg",
-            description: Text("Authorized Oura records will appear here after a successful sync.")
-        )
-        .navigationTitle("Data")
-    }
-}
-
-private struct PrivacyView: View {
-    let model: AppModel
-    @State private var exportToHealth = true
-
-    var body: some View {
-        Form {
-            Section("Apple Health") {
-                Toggle("Export compatible metrics", isOn: $exportToHealth)
-                Text("RMSSD, proprietary scores, stress, resilience, and other unmatched metrics remain local.")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-            }
-            Section("Privacy") {
-                LabeledContent("Analytics", value: "None")
-                LabeledContent("Advertising", value: "None")
-                LabeledContent("Secrets in app", value: "None")
-            }
-            Section {
-                Button("Disconnect Oura", role: .destructive) {
-                    model.connectionState = .disconnected
-                }
-                .disabled(model.connectionState == .disconnected)
-            }
-        }
-        .navigationTitle("Privacy")
-    }
-}
-
-#Preview {
-    RootView(model: AppModel())
 }

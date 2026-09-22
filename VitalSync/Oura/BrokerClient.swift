@@ -5,6 +5,10 @@ struct BrokerClient: TokenBroker {
     let transport: any HTTPTransport
 
     init(baseURL: URL, transport: any HTTPTransport = URLSessionTransport()) {
+        precondition(
+            baseURL.scheme == "https" || Self.isLocalDevelopmentURL(baseURL),
+            "The token broker must use HTTPS outside local development"
+        )
         self.baseURL = baseURL
         self.transport = transport
     }
@@ -28,6 +32,14 @@ struct BrokerClient: TokenBroker {
         let (data, response) = try await transport.data(for: request)
         guard 200..<300 ~= response.statusCode else { throw AuthenticationError.brokerRejected }
         return try JSONDecoder().decode(BrokerResponse.self, from: data).tokens
+    }
+
+    private static func isLocalDevelopmentURL(_ url: URL) -> Bool {
+        #if DEBUG
+        return url.host == "localhost" || url.host == "127.0.0.1"
+        #else
+        return false
+        #endif
     }
 }
 

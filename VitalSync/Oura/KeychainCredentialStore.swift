@@ -25,7 +25,7 @@ actor KeychainCredentialStore: CredentialStore {
     func save(_ tokens: OAuthTokens) throws {
         let data = try JSONEncoder().encode(tokens)
         var update: [String: Any] = [kSecValueData as String: data]
-        update[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+        update[kSecAttrAccessible as String] = kSecAttrAccessibleWhenUnlockedThisDeviceOnly
         let status = SecItemUpdate(baseQuery as CFDictionary, update as CFDictionary)
         if status == errSecItemNotFound {
             var insertion = baseQuery

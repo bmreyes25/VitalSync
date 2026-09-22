@@ -11,3 +11,4 @@ xcuserdata/
 Broker/node_modules/
 Broker/.wrangler/
 *.mobileprovision
+VitalSync/Configuration/Secrets.xcconfig

@@ -7,7 +7,9 @@ struct VitalSyncApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView(model: model)
+            PrivacyShield {
+                RootView(model: model)
+            }
         }
         .modelContainer(for: [StoredMetric.self, SyncLedgerEntry.self, SyncCursor.self, SyncRunRecord.self])
     }

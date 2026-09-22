@@ -63,7 +63,10 @@ final class OAuthCoordinator: NSObject, ASWebAuthenticationPresentationContextPr
                 else { continuation.resume(throwing: AuthenticationError.invalidCallback) }
             }
             session.presentationContextProvider = self
-            session.prefersEphemeralWebBrowserSession = true
+            // A shared system browser session allows Password AutoFill, iCloud Keychain,
+            // verification codes, existing Oura sessions, and passkeys offered by Oura.
+            // VitalSync never receives the user's Oura password or passkey material.
+            session.prefersEphemeralWebBrowserSession = false
             self.session = session
             guard session.start() else {
                 continuation.resume(throwing: AuthenticationError.invalidCallback)
