@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="VitalSync privately brings compatible Oura measurements into Apple Health.">
+  <meta name="theme-color" content="#07131f">
+  <title>VitalSync — Private Oura to Apple Health sync</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="VitalSync home">
+      <span class="brand-mark" aria-hidden="true">V</span>
+      <span>VitalSync</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="support.html">Support</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Private by design</p>
+        <h1>Your health data should move carefully.</h1>
+        <p class="lede">VitalSync helps you import authorized Oura measurements and write only physiologically compatible records to Apple Health—without advertising, tracking, or selling health data.</p>
+        <div class="status-pill"><span aria-hidden="true"></span> In active development for iPhone</div>
+      </div>
+      <div class="flow-card" aria-label="VitalSync data flow">
+        <div class="flow-step">
+          <span class="flow-number">01</span>
+          <div><strong>Sign in with Oura</strong><p>Oura’s secure webpage handles passwords, saved credentials, verification codes, and passkeys when available.</p></div>
+        </div>
+        <div class="flow-line" aria-hidden="true"></div>
+        <div class="flow-step">
+          <span class="flow-number">02</span>
+          <div><strong>Review permissions</strong><p>You choose which Oura categories and Apple Health types VitalSync may use.</p></div>
+        </div>
+        <div class="flow-line" aria-hidden="true"></div>
+        <div class="flow-step">
+          <span class="flow-number">03</span>
+          <div><strong>Sync with safeguards</strong><p>Compatible records are reconciled without duplicates. Unmatched metrics remain local.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="principles" aria-labelledby="principles-title">
+      <div class="section-heading">
+        <p class="eyebrow">The rules we build by</p>
+        <h2 id="principles-title">Health data gets the strict path.</h2>
+      </div>
+      <div class="principle-grid">
+        <article><span aria-hidden="true">⌁</span><h3>Correct meaning</h3><p>VitalSync never labels Oura RMSSD as Apple Health SDNN. Measurements move only when their physiological meaning and units match.</p></article>
+        <article><span aria-hidden="true">◈</span><h3>On-device control</h3><p>Health records and sync history are kept on your device. HealthKit permissions remain separate and can be changed in iOS.</p></article>
+        <article><span aria-hidden="true">◇</span><h3>No hidden audience</h3><p>No analytics SDKs, ad networks, tracking pixels, or data brokers. The public website sets no advertising or analytics cookies.</p></article>
+      </div>
+    </section>
+
+    <section class="trust-strip" aria-labelledby="trust-title">
+      <div><p class="eyebrow">Account security</p><h2 id="trust-title">VitalSync never asks for your Oura password.</h2></div>
+      <p>Sign-in opens in Apple’s protected system authentication experience and loads Oura directly. Credentials and passkeys stay between you, the operating system, and Oura. VitalSync receives only the authorization result and stores resulting app tokens in the iPhone Keychain.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>VitalSync is an independent application and is not affiliated with or endorsed by Oura Health Oy or Apple Inc.</p>
+    <div><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="support.html">Support</a></div>
+  </footer>
+</body>
+</html>
