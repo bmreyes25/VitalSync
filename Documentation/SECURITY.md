@@ -11,9 +11,9 @@
 
 ## Health data
 
-- HealthKit permission is requested separately for every supported type. Denied read access is treated as no data, consistent with HealthKit privacy behavior.
-- The mapping policy permits only measurements with equivalent meaning, units, and aggregation. Oura RMSSD is retained locally and never written as HealthKit SDNN.
-- HealthKit writes include stable sync metadata, query and remove an earlier VitalSync revision, and record durable ledger outcomes to prevent duplicates.
+- The current build does not request HealthKit permission or write HealthKit samples. Future exports must request permission only for eligible types; denied read access cannot be inferred as granted.
+- The mapping policy and Oura export-gap policy must both approve a measurement before any future HealthKit write. Oura RMSSD is retained locally and never written as HealthKit SDNN.
+- Future HealthKit writes use stable sync identifiers and increasing versions so HealthKit can replace VitalSync revisions without deleting an earlier sample before a replacement is saved. This path requires on-device validation before release.
 - App content is marked privacy-sensitive and covered when the scene becomes inactive or backgrounded, reducing disclosure in app-switcher snapshots.
 - Local transfer operations require the device to be unlocked, the app to be active, and fresh explicit consent for the specific operation.
 - Imported files must use the VitalSync file type, be regular files, and remain within a bounded size. Temporary exports receive complete file protection and are excluded from backup.

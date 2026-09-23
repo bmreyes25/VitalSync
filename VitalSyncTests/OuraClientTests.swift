@@ -51,6 +51,30 @@ final class OuraClientTests: XCTestCase {
         XCTAssertFalse(query.contains(where: { $0.name == "start_date" }))
     }
 
+    func testSleepReadinessAndSpO2DecodeFromSyntheticPages() async throws {
+        let sleep = #"{"data":[{"id":"synthetic-sleep-a","day":"2030-01-02","bedtime_start":"2030-01-01T23:00:00-08:00","bedtime_end":"2030-01-02T07:00:00-08:00","average_hrv":41}],"next_token":null}"#.data(using: .utf8)!
+        let readiness = #"{"data":[{"id":"synthetic-ready-a","day":"2030-01-02","temperature_deviation":-0.3,"timestamp":"2030-01-02T07:15:00-08:00"}],"next_token":null}"#.data(using: .utf8)!
+        let spo2 = #"{"data":[{"id":"synthetic-spo2-a","day":"2030-01-02","spo2_percentage":{"average":96.4}}],"next_token":null}"#.data(using: .utf8)!
+        let transport = QueueTransport(responses: [
+            response(sleep, status: 200), response(readiness, status: 200), response(spo2, status: 200)
+        ])
+        let client = makeClient(transport: transport)
+        let start = ISO8601DateFormatter().date(from: "2030-01-01T00:00:00Z")!
+        let end = ISO8601DateFormatter().date(from: "2030-01-03T00:00:00Z")!
+
+        let sleeps = try await client.fetchSleepPeriods(from: start, through: end)
+        let readinessDays = try await client.fetchDailyReadiness(from: start, through: end)
+        let oxygenDays = try await client.fetchDailySpO2(from: start, through: end)
+
+        XCTAssertEqual(sleeps.first?.averageHRV, 41)
+        XCTAssertEqual(readinessDays.first?.temperatureDeviation, -0.3)
+        XCTAssertEqual(oxygenDays.first?.spo2Percentage?.average, 96.4)
+        let paths = await transport.requests.compactMap { $0.url?.path }
+        XCTAssertEqual(paths, [
+            "/v2/usercollection/sleep", "/v2/usercollection/daily_readiness", "/v2/usercollection/daily_spo2"
+        ])
+    }
+
     private func makeClient(
         transport: QueueTransport,
         sleeper: RecordingSleeper = RecordingSleeper()

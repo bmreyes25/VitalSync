@@ -48,8 +48,11 @@ enum OuraAPIError: Error, Equatable {
     case paginationCycle
 }
 
-protocol OuraHeartRateFetching: Sendable {
+protocol OuraHealthDataFetching: Sendable {
     func fetchHeartRates(from startDate: Date, through endDate: Date) async throws -> [OuraHeartRate]
+    func fetchSleepPeriods(from startDate: Date, through endDate: Date) async throws -> [OuraSleepPeriod]
+    func fetchDailyReadiness(from startDate: Date, through endDate: Date) async throws -> [OuraDailyReadiness]
+    func fetchDailySpO2(from startDate: Date, through endDate: Date) async throws -> [OuraSpO2]
 }
 
 struct OuraClient: Sendable {
@@ -98,6 +101,18 @@ struct OuraClient: Sendable {
 
     func fetchHeartRates(from startDate: Date, through endDate: Date) async throws -> [OuraHeartRate] {
         try await fetchAll(endpoint: .heartrate, startDate: startDate, endDate: endDate, as: OuraHeartRate.self)
+    }
+
+    func fetchSleepPeriods(from startDate: Date, through endDate: Date) async throws -> [OuraSleepPeriod] {
+        try await fetchAll(endpoint: .sleep, startDate: startDate, endDate: endDate, as: OuraSleepPeriod.self)
+    }
+
+    func fetchDailyReadiness(from startDate: Date, through endDate: Date) async throws -> [OuraDailyReadiness] {
+        try await fetchAll(endpoint: .dailyReadiness, startDate: startDate, endDate: endDate, as: OuraDailyReadiness.self)
+    }
+
+    func fetchDailySpO2(from startDate: Date, through endDate: Date) async throws -> [OuraSpO2] {
+        try await fetchAll(endpoint: .dailySpO2, startDate: startDate, endDate: endDate, as: OuraSpO2.self)
     }
 
     private func fetchPage<Element: Decodable & Sendable>(
@@ -193,4 +208,4 @@ struct OuraClient: Sendable {
     }
 }
 
-extension OuraClient: OuraHeartRateFetching {}
+extension OuraClient: OuraHealthDataFetching {}

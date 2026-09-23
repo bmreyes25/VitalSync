@@ -4,8 +4,6 @@ import SwiftData
 struct PrivacySettingsView: View {
     let model: AppModel
     @Environment(\.modelContext) private var modelContext
-    @AppStorage("vitalsync.exportHeartRateToHealth") private var exportToHealth = false
-    @State private var showingHealthNotice = false
     @State private var confirmingDisconnect = false
     @State private var confirmingLocalDeletion = false
     @State private var deletionError = false
@@ -22,8 +20,7 @@ struct PrivacySettingsView: View {
                                 Label("Apple Health", systemImage: "heart.fill")
                                     .font(.headline)
                                     .foregroundStyle(VitalPalette.coral)
-                                Toggle("Write heart rate to Apple Health", isOn: $exportToHealth)
-                                Text("Off by default. When enabled, VitalSync requests Health access during your next manual import. Oura data remains on this device.")
+                                Text("These imports stay on your iPhone. Oura already offers some Apple Health exports; VitalSync will offer missing types only after their timing, units, and meaning are verified.")
                                     .font(.footnote)
                                     .foregroundStyle(.secondary)
                                     .fixedSize(horizontal: false, vertical: true)
@@ -34,14 +31,10 @@ struct PrivacySettingsView: View {
                             VStack(alignment: .leading, spacing: 14) {
                                 Label("Your data", systemImage: "hand.raised.fill")
                                     .font(.headline)
-                                Text("Heart rate imports run only when you tap Import. You can remove VitalSync’s local records here at any time.")
+                                Text("Oura imports run only when you tap Import. You can remove VitalSync’s local records here at any time.")
                                     .font(.footnote)
                                     .foregroundStyle(.secondary)
                                     .fixedSize(horizontal: false, vertical: true)
-                                Button("Manage Apple Health access") {
-                                    showingHealthNotice = true
-                                }
-                                .buttonStyle(.glass)
                                 Button("Delete local VitalSync data", role: .destructive) {
                                     confirmingLocalDeletion = true
                                 }
@@ -78,11 +71,6 @@ struct PrivacySettingsView: View {
         }
         .navigationTitle("Privacy")
         .navigationBarTitleDisplayMode(.inline)
-        .alert("Apple Health permissions", isPresented: $showingHealthNotice) {
-            Button("Done", role: .cancel) {}
-        } message: {
-            Text("You can change VitalSync’s write permission in the Health app under your profile’s Apps and Services. VitalSync requests heart rate access when you run an import with export enabled.")
-        }
         .alert("Local data could not be deleted", isPresented: $deletionError) {
             Button("OK", role: .cancel) {}
         } message: {
@@ -94,7 +82,7 @@ struct PrivacySettingsView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("Removes VitalSync’s local metrics and sync history from this device. Apple Health samples are managed separately in the Health app.")
+            Text("Removes VitalSync’s local metrics and sync history from this device. This version does not create Apple Health samples.")
         }
         .confirmationDialog("Disconnect Oura?", isPresented: $confirmingDisconnect, titleVisibility: .visible) {
             Button("Disconnect", role: .destructive) {

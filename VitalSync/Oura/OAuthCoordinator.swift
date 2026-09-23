@@ -17,7 +17,7 @@ struct OAuthConfiguration: Sendable {
             authorizationURL: URL(string: "https://cloud.ouraring.com/oauth/authorize")!,
             redirectURI: URL(string: "vitalsync://oauth/oura/callback")!,
             callbackScheme: "vitalsync",
-            scopes: ["heartrate"]
+            scopes: ["heartrate", "daily", "spo2"]
         )
     }
 }

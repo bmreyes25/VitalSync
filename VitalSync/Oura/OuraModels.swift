@@ -94,6 +94,33 @@ struct OuraHeartRate: Codable, Hashable, Sendable {
     }
 }
 
+struct OuraSleepPeriod: Codable, Hashable, Sendable {
+    let id: String
+    let day: String
+    let bedtimeStart: String
+    let bedtimeEnd: String
+    let averageHRV: Double?
+
+    enum CodingKeys: String, CodingKey {
+        case id, day
+        case bedtimeStart = "bedtime_start"
+        case bedtimeEnd = "bedtime_end"
+        case averageHRV = "average_hrv"
+    }
+}
+
+struct OuraDailyReadiness: Codable, Hashable, Sendable {
+    let id: String
+    let day: String
+    let timestamp: String?
+    let temperatureDeviation: Double?
+
+    enum CodingKeys: String, CodingKey {
+        case id, day, timestamp
+        case temperatureDeviation = "temperature_deviation"
+    }
+}
+
 struct OuraSpO2: Codable, Hashable, Sendable {
     struct Percentage: Codable, Hashable, Sendable {
         let average: Double?

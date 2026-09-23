@@ -32,17 +32,17 @@ final class AppModel {
 
     private let authenticator: (any OAuthAuthorizing)?
     private let credentialStore: (any CredentialStore)?
-    private let heartRateClient: (any OuraHeartRateFetching)?
+    private let healthDataClient: (any OuraHealthDataFetching)?
 
     init(
         authenticator: (any OAuthAuthorizing)? = nil,
         credentialStore: (any CredentialStore)? = nil,
-        heartRateClient: (any OuraHeartRateFetching)? = nil,
+        healthDataClient: (any OuraHealthDataFetching)? = nil,
         configurationIssue: String? = nil
     ) {
         self.authenticator = authenticator
         self.credentialStore = credentialStore
-        self.heartRateClient = heartRateClient
+        self.healthDataClient = healthDataClient
         connectionState = authenticator == nil || credentialStore == nil ? .unavailable : .checking
         connectionMessage = configurationIssue
     }
@@ -61,7 +61,7 @@ final class AppModel {
             return AppModel(
                 authenticator: authenticator,
                 credentialStore: credentialStore,
-                heartRateClient: OuraClient(tokenManager: tokenManager)
+                healthDataClient: OuraClient(tokenManager: tokenManager)
             )
         } catch {
             return AppModel(configurationIssue: "VitalSync needs its secure Oura connection settings before sign-in can begin.")
@@ -87,6 +87,7 @@ final class AppModel {
 
     func connectToOura() async {
         guard connectionState != .connecting, let authenticator else { return }
+        let wasConnected = connectionState == .connected
         connectionState = .connecting
         connectionMessage = nil
 
@@ -94,12 +95,12 @@ final class AppModel {
             try await authenticator.connect()
             connectionState = .connected
         } catch AuthenticationError.userCancelled {
-            connectionState = .disconnected
+            connectionState = wasConnected ? .connected : .disconnected
         } catch AuthenticationError.stateMismatch {
-            connectionState = .disconnected
+            connectionState = wasConnected ? .connected : .disconnected
             connectionMessage = "The secure sign-in response could not be verified. Please try again."
         } catch {
-            connectionState = .disconnected
+            connectionState = wasConnected ? .connected : .disconnected
             connectionMessage = "Oura sign-in did not finish. Check your connection and try again."
         }
     }
@@ -115,8 +116,8 @@ final class AppModel {
         }
     }
 
-    func importHeartRate(into container: ModelContainer, exportToHealth: Bool) async {
-        guard connectionState == .connected, !isSyncing, let heartRateClient else { return }
+    func importRecentData(into container: ModelContainer) async {
+        guard connectionState == .connected, !isSyncing, let healthDataClient else { return }
         isSyncing = true
         syncErrorMessage = nil
         defer { isSyncing = false }
@@ -124,29 +125,69 @@ final class AppModel {
         do {
             let endDate = Date()
             let startDate = endDate.addingTimeInterval(-7 * 24 * 60 * 60)
-            let samples = try await heartRateClient.fetchHeartRates(from: startDate, through: endDate)
-            try Task.checkCancellation()
-            let normalizer = HeartRateNormalizer()
-            let metrics = samples.compactMap { normalizer.normalize($0) }
-            let writer = HealthKitService()
-            var canExport = exportToHealth
-            if exportToHealth && !metrics.isEmpty {
-                do {
-                    try await writer.requestAuthorization()
-                } catch {
-                    canExport = false
-                    syncErrorMessage = "Heart rate was saved locally, but Apple Health access could not be requested. Check Health permissions and try again."
-                }
+            var metrics: [NormalizedMetric] = []
+            var failedCategories: [String] = []
+            var needsPermissionUpdate = false
+            var successfulRequests = 0
+            let wellness = OuraWellnessNormalizer()
+
+            do {
+                let samples = try await healthDataClient.fetchHeartRates(from: startDate, through: endDate)
+                metrics += samples.compactMap { HeartRateNormalizer().normalize($0) }
+                successfulRequests += 1
+            } catch {
+                failedCategories.append("heart rate")
+                if case OuraAPIError.status(403) = error { needsPermissionUpdate = true }
             }
+            try Task.checkCancellation()
+
+            do {
+                let samples = try await healthDataClient.fetchSleepPeriods(from: startDate, through: endDate)
+                metrics += samples.compactMap { wellness.normalize($0) }
+                successfulRequests += 1
+            } catch {
+                failedCategories.append("sleep HRV")
+                if case OuraAPIError.status(403) = error { needsPermissionUpdate = true }
+            }
+            try Task.checkCancellation()
+
+            do {
+                let samples = try await healthDataClient.fetchDailyReadiness(from: startDate, through: endDate)
+                metrics += samples.compactMap { wellness.normalize($0) }
+                successfulRequests += 1
+            } catch {
+                failedCategories.append("temperature deviation")
+                if case OuraAPIError.status(403) = error { needsPermissionUpdate = true }
+            }
+            try Task.checkCancellation()
+
+            do {
+                let samples = try await healthDataClient.fetchDailySpO2(from: startDate, through: endDate)
+                metrics += samples.compactMap { wellness.normalize($0) }
+                successfulRequests += 1
+            } catch {
+                failedCategories.append("sleep SpO₂")
+                if case OuraAPIError.status(403) = error { needsPermissionUpdate = true }
+            }
+            try Task.checkCancellation()
+
+            guard successfulRequests > 0 else {
+                syncErrorMessage = needsPermissionUpdate
+                    ? "Oura needs updated permissions. Tap Update Oura permissions, then import again."
+                    : "Could not reach the Oura categories. Check your connection and try again."
+                return
+            }
+            let writer = HealthKitService()
             let engine = SyncEngine(persistence: PersistenceStore(modelContainer: container), healthWriter: writer)
-            let summary = await engine.reconcile(metrics, exportToHealth: canExport)
+            let summary = await engine.reconcile(metrics, exportToHealth: false)
             lastSyncDate = endDate
             lastSyncSummary = "\(summary.inserted) new, \(summary.updated) updated, \(summary.duplicates) already saved"
-            if canExport {
-                lastSyncSummary += ", \(summary.exported) written to Apple Health"
-            }
-            if summary.denied > 0 || summary.failures > 0 {
-                syncErrorMessage = "Some records could not be written. Check Apple Health permissions and try again."
+            if !failedCategories.isEmpty {
+                syncErrorMessage = needsPermissionUpdate
+                    ? "Some categories need Oura permission. Tap Update Oura permissions, then import again."
+                    : "Some categories could not be imported. Try again later."
+            } else if summary.failures > 0 {
+                syncErrorMessage = "Some records could not be saved locally. Please try again."
             }
         } catch is CancellationError {
             return
@@ -155,7 +196,7 @@ final class AppModel {
         } catch OuraAPIError.rateLimited {
             syncErrorMessage = "Oura is limiting requests. Please try again later."
         } catch {
-            syncErrorMessage = "Could not import heart rate. Check your connection and try again."
+            syncErrorMessage = "Could not import Oura data. Check your connection and try again."
         }
     }
 

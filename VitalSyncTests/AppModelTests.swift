@@ -39,6 +39,20 @@ struct AppModelTests {
         #expect(model.connectionMessage == nil)
     }
 
+    @Test func cancellingPermissionUpdateKeepsExistingConnection() async {
+        let store = InMemoryCredentialStore(tokens: .synthetic)
+        let model = AppModel(
+            authenticator: StubAuthenticator { throw AuthenticationError.userCancelled },
+            credentialStore: store
+        )
+        await model.restoreConnectionState()
+
+        await model.connectToOura()
+
+        #expect(model.connectionState == .connected)
+        #expect(await store.load() == .synthetic)
+    }
+
     @Test func disconnectDeletesCredentials() async {
         let store = InMemoryCredentialStore(tokens: .synthetic)
         let model = AppModel(authenticator: StubAuthenticator(), credentialStore: store)
@@ -59,27 +73,90 @@ struct AppModelTests {
         let client = SyntheticHeartRateClient(samples: [
             OuraHeartRate(bpm: 63, source: "synthetic", timestamp: timestamp, timestampUnix: 1_893_553_445_000)
         ])
-        let model = AppModel(authenticator: StubAuthenticator(), credentialStore: store, heartRateClient: client)
+        let model = AppModel(authenticator: StubAuthenticator(), credentialStore: store, healthDataClient: client)
         await model.restoreConnectionState()
 
-        await model.importHeartRate(into: container, exportToHealth: false)
+        await model.importRecentData(into: container)
         #expect(model.lastSyncSummary.contains("1 new"))
         #expect(model.syncErrorMessage == nil)
 
-        await model.importHeartRate(into: container, exportToHealth: false)
+        await model.importRecentData(into: container)
         #expect(model.lastSyncSummary.contains("1 already saved"))
 
         let metrics = try container.mainContext.fetch(FetchDescriptor<StoredMetric>())
         #expect(metrics.count == 1)
         #expect(metrics.first?.value == 63)
     }
+
+    @Test func importsThreeSyntheticWellnessKindsLocallyWithoutHealthWrites() async throws {
+        let container = try ModelContainer(
+            for: StoredMetric.self, SyncLedgerEntry.self, SyncCursor.self, SyncRunRecord.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+        let client = SyntheticHeartRateClient(
+            samples: [],
+            sleeps: [OuraSleepPeriod(id: "synthetic-sleep-1", day: "2030-01-02", bedtimeStart: "2030-01-01T23:00:00-08:00", bedtimeEnd: "2030-01-02T07:00:00-08:00", averageHRV: 41)],
+            readiness: [OuraDailyReadiness(id: "synthetic-ready-1", day: "2030-01-02", timestamp: nil, temperatureDeviation: -0.3)],
+            oxygen: [OuraSpO2(id: "synthetic-spo2-1", day: "2030-01-02", spo2Percentage: .init(average: 96.4))]
+        )
+        let model = AppModel(
+            authenticator: StubAuthenticator(), credentialStore: InMemoryCredentialStore(tokens: .synthetic),
+            healthDataClient: client
+        )
+        await model.restoreConnectionState()
+
+        await model.importRecentData(into: container)
+        let records = try container.mainContext.fetch(FetchDescriptor<StoredMetric>())
+        let healthWrites = try container.mainContext.fetch(FetchDescriptor<SyncLedgerEntry>())
+            .filter { $0.destinationRawValue == SyncDestination.healthKit.rawValue }
+
+        #expect(Set(records.map(\.kindRawValue)) == Set([
+            HealthMetricKind.rmssd.rawValue,
+            HealthMetricKind.bodyTemperatureDeviation.rawValue,
+            HealthMetricKind.oxygenSaturation.rawValue
+        ]))
+        #expect(healthWrites.isEmpty)
+    }
+
+    @Test func deniedSpO2ScopeDoesNotDiscardOtherImports() async throws {
+        let container = try ModelContainer(
+            for: StoredMetric.self, SyncLedgerEntry.self, SyncCursor.self, SyncRunRecord.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+        let timestamp = Date(timeIntervalSince1970: 1_893_553_445)
+        let client = SyntheticHeartRateClient(
+            samples: [OuraHeartRate(bpm: 63, source: "synthetic", timestamp: timestamp, timestampUnix: 1_893_553_445_000)],
+            denyOxygen: true
+        )
+        let model = AppModel(
+            authenticator: StubAuthenticator(), credentialStore: InMemoryCredentialStore(tokens: .synthetic),
+            healthDataClient: client
+        )
+        await model.restoreConnectionState()
+
+        await model.importRecentData(into: container)
+
+        #expect(try container.mainContext.fetchCount(FetchDescriptor<StoredMetric>()) == 1)
+        #expect(model.syncErrorMessage?.contains("Update Oura permissions") == true)
+    }
 }
 
-private struct SyntheticHeartRateClient: OuraHeartRateFetching {
+private struct SyntheticHeartRateClient: OuraHealthDataFetching {
     let samples: [OuraHeartRate]
+    var sleeps: [OuraSleepPeriod] = []
+    var readiness: [OuraDailyReadiness] = []
+    var oxygen: [OuraSpO2] = []
+    var denyOxygen = false
 
     func fetchHeartRates(from startDate: Date, through endDate: Date) async throws -> [OuraHeartRate] {
         samples
+    }
+
+    func fetchSleepPeriods(from startDate: Date, through endDate: Date) async throws -> [OuraSleepPeriod] { sleeps }
+    func fetchDailyReadiness(from startDate: Date, through endDate: Date) async throws -> [OuraDailyReadiness] { readiness }
+    func fetchDailySpO2(from startDate: Date, through endDate: Date) async throws -> [OuraSpO2] {
+        if denyOxygen { throw OuraAPIError.status(403) }
+        return oxygen
     }
 }
 

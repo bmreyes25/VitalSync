@@ -5,7 +5,6 @@ struct SyncDashboardView: View {
     let model: AppModel
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.modelContext) private var modelContext
-    @AppStorage("vitalsync.exportHeartRateToHealth") private var exportToHealth = false
 
     var body: some View {
         ZStack {
@@ -46,7 +45,7 @@ struct SyncDashboardView: View {
                 .fontDesign(.rounded)
                 .accessibilityAddTraits(.isHeader)
 
-            Text("Import recent Oura heart rate into a private local record. Choose whether compatible samples also go to Apple Health.")
+            Text("Keep Oura heart rate, sleep SpO₂, HRV, and temperature deviation in a private local record.")
                 .font(.body)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
@@ -93,6 +92,14 @@ struct SyncDashboardView: View {
                     .accessibilityHint("Opens Oura's secure sign-in page. VitalSync never sees your password or passkey.")
                 }
 
+                if model.connectionState == .connected {
+                    Button("Update Oura permissions") {
+                        Task { await model.connectToOura() }
+                    }
+                    .buttonStyle(.glass)
+                    .accessibilityHint("Requests heart rate, daily sleep and readiness, and SpO₂ access from Oura.")
+                }
+
                 if let connectionMessage = model.connectionMessage {
                     Label(connectionMessage, systemImage: "exclamationmark.triangle.fill")
                         .font(.footnote)
@@ -130,10 +137,7 @@ struct SyncDashboardView: View {
                 if model.connectionState == .connected {
                     Button {
                         Task {
-                            await model.importHeartRate(
-                                into: modelContext.container,
-                                exportToHealth: exportToHealth
-                            )
+                            await model.importRecentData(into: modelContext.container)
                         }
                     } label: {
                         HStack {
@@ -146,7 +150,7 @@ struct SyncDashboardView: View {
                     .buttonStyle(.glassProminent)
                     .tint(VitalPalette.accent)
                     .disabled(model.isSyncing)
-                    .accessibilityHint("Imports recent Oura heart rate. Apple Health export follows your Privacy setting.")
+                    .accessibilityHint("Imports recent Oura heart rate, sleep SpO₂, HRV, and temperature deviation to this iPhone.")
                 }
 
                 if let syncErrorMessage = model.syncErrorMessage {
@@ -178,7 +182,7 @@ struct SyncDashboardView: View {
                 VStack(alignment: .leading, spacing: 5) {
                     Text("Private by design")
                         .font(.headline)
-                    Text("Credentials stay in Keychain. VitalSync only writes measurements with a matching Apple Health meaning.")
+                    Text("Credentials stay in Keychain. Existing Oura-to-Apple Health exports are never duplicated by VitalSync.")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)

@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="VitalSync privately imports Oura heart rate to iPhone, with optional Apple Health export.">
+  <meta name="description" content="VitalSync keeps a traceable local Oura record and develops only missing, semantically correct Apple Health exports.">
   <meta name="theme-color" content="#07131f">
-  <title>VitalSync — Private Oura heart rate import</title>
+  <title>VitalSync — Traceable Oura health data</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -28,7 +28,7 @@
       <div class="hero-copy">
         <p class="eyebrow">Private by design</p>
         <h1>Your health data should move carefully.</h1>
-        <p class="lede">VitalSync lets you manually import recent Oura heart rate measurements to your iPhone and optionally write them to Apple Health—without advertising, tracking, or selling health data.</p>
+        <p class="lede">VitalSync lets you manually import recent Oura heart rate, sleep SpO₂ average, HRV, and sleep temperature change into a traceable local record. Apple Health exports will be added only for data Oura does not already send and only when the measurement meaning matches.</p>
         <div class="status-pill"><span aria-hidden="true"></span> In active development for iPhone</div>
       </div>
       <div class="flow-card" aria-label="VitalSync data flow">
@@ -39,12 +39,12 @@
         <div class="flow-line" aria-hidden="true"></div>
         <div class="flow-step">
           <span class="flow-number">02</span>
-          <div><strong>Choose Apple Health access</strong><p>Heart rate export is off by default. Enable it when you want compatible measurements written to Apple Health.</p></div>
+          <div><strong>Avoid duplicate exports</strong><p>Oura already offers heart-rate sharing with Apple Health. VitalSync does not write another copy.</p></div>
         </div>
         <div class="flow-line" aria-hidden="true"></div>
         <div class="flow-step">
           <span class="flow-number">03</span>
-          <div><strong>Import with safeguards</strong><p>Manual imports reconcile repeat records. Your local heart rate history stays on your device.</p></div>
+          <div><strong>See where records went</strong><p>Manual imports reconcile repeat records. Open a measurement to see its source, time, and VitalSync export history.</p></div>
         </div>
       </div>
     </section>
